@@ -1,0 +1,44 @@
+{% extends "admin/challenges/create.html" %}
+
+{% block header %}
+<div class="alert alert-secondary" role="alert">
+	The cryptohack challenge type is a special challenge type
+	that awards points based on your cryptohack level.
+
+</div>
+{% endblock %}
+
+
+{% block value %}
+<div class="form-group">
+	<label for="value">Initial Value<br>
+		<small class="form-text text-muted">
+			This is how many points each level is worth.
+		</small>
+	</label>
+	<input type="number" class="form-control" name="initial" placeholder="Enter value" required>
+
+</div>
+
+<div class="form-group">
+	<label for="value">Increase<br>
+		<small class="form-text text-muted">
+			The number of levels before the challenge is worth its maximum value.
+		</small>
+	</label>
+	<input type="number" class="form-control" name="decay" placeholder="Enter levels till maximum" required>
+</div>
+
+<div class="form-group">
+	<label for="value">Maximum Value<br>
+		<small class="form-text text-muted">
+			This is the highest points that each level can be worth.
+		</small>
+	</label>
+	<input type="number" class="form-control" name="minimum" placeholder="Enter maximum value" required>
+</div>
+{% endblock %}
+
+{% block type %}
+<input type="hidden" value="cryptohack" name="type" id="chaltype">
+{% endblock %}
