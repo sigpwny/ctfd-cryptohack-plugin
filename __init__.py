@@ -17,13 +17,13 @@ class CryptohackChallengeModel(Challenges):
     id = db.Column(
         db.Integer, db.ForeignKey("challenges.id", ondelete="CASCADE"), primary_key=True
     )
-    initial = db.Column(db.Integer, default=0) # How much each level is worth
-    minimum = db.Column(db.Integer, default=0) # Maximum points for this challenge
-    decay = db.Column(db.Integer, default=0) # Levels till maximum is reached
+    base = db.Column(db.Integer, default=0) # How many points you get to sign up
+    scale = db.Column(db.Integer, default=0) # Rate of ramp up
+    length = db.Column(db.Integer, default=0) # How many CH levels until ramp up kicks in
 
     def __init__(self, *args, **kwargs):
         super(CryptohackChallengeModel, self).__init__(**kwargs)
-        self.value = kwargs["initial"]
+        self.value = kwargs["base"]
 
 class CryptohackChallenge(BaseChallenge):
     id = "cryptohack"  # Unique identifier used to register challenges
@@ -127,9 +127,9 @@ class CryptohackChallenge(BaseChallenge):
             "id": challenge.id,
             "name": challenge.name,
             "value": challenge.value,
-            "initial": challenge.initial,
-            "decay": challenge.decay,
-            "minimum": challenge.minimum,
+            "base": challenge.base,
+            "length": challenge.length,
+            "scale": challenge.scale,
             "description": challenge.description,
             "connection_info": challenge.connection_info,
             "category": challenge.category,
@@ -147,7 +147,13 @@ class CryptohackChallenge(BaseChallenge):
 
     @staticmethod
     def calculate_level_value(challenge, level):
-        return min(challenge.minimum, challenge.initial + level * challenge.decay)
+        def diffs(i):
+            return challenge.scale * int(1 / challenge.length * (i + challenge.length))
+
+        if level == 0:
+            return challenge.base
+        else:
+            return sum(diffs(i) for i in range(1, level + 1))
     @classmethod
     def update(cls, challenge, request):
         """
@@ -163,7 +169,7 @@ class CryptohackChallenge(BaseChallenge):
         old_category = challenge.category
         for attr, value in data.items():
             # We need to set these to floats so that the next operations don't operate on strings
-            if attr in ("initial", "minimum", "decay"):
+            if attr in ("base", "length", "scale"):
                 value = float(value)
             setattr(challenge, attr, value)
 

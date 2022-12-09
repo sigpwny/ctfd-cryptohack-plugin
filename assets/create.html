@@ -11,31 +11,30 @@
 
 {% block value %}
 <div class="form-group">
-	<label for="value">Initial Value<br>
+	<label for="value">Base Value<br>
 		<small class="form-text text-muted">
-			This is how many points each level is worth.
+			How many points you get to sign up
 		</small>
 	</label>
-	<input type="number" class="form-control" name="initial" placeholder="Enter value" required>
-
+	<input type="number" class="form-control chal-base" name="base" value="{{ challenge.base }}" required>
 </div>
 
 <div class="form-group">
-	<label for="value">Increase<br>
+	<label for="length">Rampup Length<br>
 		<small class="form-text text-muted">
-			The number of levels before the challenge is worth its maximum value.
+			How many CH levels until ramp up kicks in
 		</small>
 	</label>
-	<input type="number" class="form-control" name="decay" placeholder="Enter levels till maximum" required>
+	<input type="number" class="form-control chal-length" name="length" value="{{ challenge.length }}" required>
 </div>
 
 <div class="form-group">
-	<label for="value">Maximum Value<br>
+	<label for="scale">Rampup Scale<br>
 		<small class="form-text text-muted">
-			This is the highest points that each level can be worth.
+			Rate of ramp up
 		</small>
 	</label>
-	<input type="number" class="form-control" name="minimum" placeholder="Enter maximum value" required>
+	<input type="number" class="form-control chal-scale" name="scale" value="{{ challenge.scale }}" required>
 </div>
 {% endblock %}
 
