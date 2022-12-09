@@ -179,7 +179,7 @@ class CryptohackChallenge(BaseChallenge):
             if chal.name.startswith(cls.cryptohack_challenge_format):
                 level = int(chal.name[len(cls.cryptohack_challenge_format) :])
                 chal.value = cls.calculate_level_value(challenge, level)
-            chal.category = challenge.category
+                chal.category = challenge.category
         
         db.session.commit()
         return challenge
