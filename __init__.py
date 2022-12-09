@@ -32,12 +32,12 @@ class CryptohackChallenge(BaseChallenge):
     templates = {  # Handlebars templates used for each aspect of challenge editing & viewing
         "create": "/plugins/ctfd-cryptohack-plugin/assets/create.html",
         "update": "/plugins/ctfd-cryptohack-plugin/assets/update.html",
-        "view": "/plugins/ctfd-cryptohack-plugin/assets/view.html",
+        "view": "/plugins/challenges/assets/view.html"
     }
     scripts = {  # Scripts that are loaded when a template is loaded
         "create": "/plugins/ctfd-cryptohack-plugin/assets/create.js",
         "update": "/plugins/ctfd-cryptohack-plugin/assets/update.js",
-        "view": "/plugins/ctfd-cryptohack-plugin/assets/view.js",
+        "view": "/plugins/challenges/assets/view.js"
     }
     # Route at which files are accessible. This must be registered using register_plugin_assets_directory()
     route = "/plugins/ctfd-cryptohack-plugin/assets/"
@@ -49,7 +49,7 @@ class CryptohackChallenge(BaseChallenge):
         static_folder="assets",
     )
     challenge_model = CryptohackChallengeModel
-    cryptohack_challenge_format = "Cryptohack Level "
+    cryptohack_challenge_format = "CryptoHack Level "
 
     @classmethod
     def attempt(cls, challenge, request):
